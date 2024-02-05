@@ -1,0 +1,66 @@
+{% extends 'new_header.html'  %}
+
+
+
+{% block content %}
+
+
+    <div class="content">
+       <header>Login</header>
+       <form>
+
+          <div class="field">
+             <span class="fa fa-user"></span>
+             <input type="email" id="email"  name="email" placeholder="Email or Username" autocomplete="off">
+          </div>
+          
+          <br>
+          
+          <div class="field space">
+             <span class="fa fa-lock"></span>
+             <input type="password" name="password" id="password" class="pass-key" required placeholder="Password">
+             <span class="show">SHOW</span>
+          </div>
+          
+          <br>
+          
+          <div class="pass">
+             <a href="#">Forgot Password?</a>
+          </div>
+          
+          <div class="field">
+             <input type="button" name="submit" id="submit" value="LOGIN" onclick="login();"/>
+          </div>
+       
+        </form>
+       
+        <div class="signup">
+          Don't have account?
+          <a href="/signup">Signup Now</a>
+        </div>
+    
+    </div>
+{% endblock %}
+
+{% block footer %}
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>      
+ <script src="{{url_for('static',filename='js/script.js')}}"></script>
+
+   <script> 
+      const pass_field = document.querySelector('.pass-key');
+      const showBtn = document.querySelector('.show');
+      showBtn.addEventListener('click', function(){
+       if(pass_field.type === "password"){
+         pass_field.type = "text";
+         showBtn.textContent = "HIDE";
+         showBtn.style.color = "#3498db";
+       }else{
+         pass_field.type = "password";
+         showBtn.textContent = "SHOW";
+         showBtn.style.color = "#222";
+       }
+      });
+      </script>
+      
+{% endblock %}
+

@@ -1,0 +1,102 @@
+
+{% extends 'new_header.html' %}
+
+
+{% block content %}
+
+    <div class="content">
+       <header>Register</header>
+       <form>
+          <div class="field">
+               <span class="fa fa-user"></span>
+               <input type="email" id="email"  name="email" placeholder=" Enter Email" autocomplete="off">
+          </div>
+          <br>
+          <br>
+          <div class="field">
+             <span class="fa fa-user"></span>
+             <input type="text" id="username"  name="username" placeholder=" Enter Username" autocomplete="off">
+          </div>
+          <br>
+          <div class="field space">
+             <span class="fa fa-lock"></span>
+             <input type="password" name="password" id="password" class="pass-key" required placeholder="Password">
+             <span class="show">SHOW</span>
+          </div>
+          <br>
+          <br>
+          <div class="field">
+             <input type="button" name="submit" id="submit" value="SignUp" onclick="Signup();"/>
+          </div>
+       </form>
+       <div class="signup">
+          Already Have Account?
+          <a href="/">Sign In</a>
+       </div>
+    </div>
+
+ {% endblock %}
+ 
+ {% block footer %}
+
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>      
+<script> 
+const pass_field = document.querySelector('.pass-key');
+const showBtn = document.querySelector('.show');
+showBtn.addEventListener('click', function(){
+ if(pass_field.type === "password"){
+   pass_field.type = "text";
+   showBtn.textContent = "HIDE";
+   showBtn.style.color = "#3498db";
+ }else{
+   pass_field.type = "password";
+   showBtn.textContent = "SHOW";
+   showBtn.style.color = "#222";
+ }
+});
+</script>
+ <script>
+       function Signup(){
+          console.log("hey")
+       var obj_data ={
+       username:document.getElementById('username').value,
+       email:document.getElementById('email').value,
+       password:document.getElementById('password').value
+   }
+
+   //console.log(obj_data)
+
+
+var signup_url = {
+"url": "http://localhost:5000/user/signup",
+"method": "POST",
+"timeout": 0,
+"headers": {
+"Content-Type": "application/json"
+},
+"data": JSON.stringify(obj_data),
+};
+
+$.ajax(signup_url).done(function (response) {
+console.log(response.status)
+console.log(response.message)
+if(response.status == "success" )
+{
+success ('success', response.message)
+setTimeout(function() {
+   window.location.href = "/";
+ }, 2000); 
+}
+else{
+    
+ success ('error', response.message)
+ // setTimeout(function() {
+ //   window.location.href = "/signup";
+ // }, 1000); 
+ 
+ }
+});
+}
+</script>
+
+{% endblock %}

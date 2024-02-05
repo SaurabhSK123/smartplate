@@ -1,0 +1,91 @@
+<!-- 
+<div>
+    <nav>
+       <div class="wrapper">
+          <div class="logo"><a href="#">Logo</a></div>
+          <input type="radio" name="slider" id="menu-btn">
+          <input type="radio" name="slider" id="close-btn">
+             <ul class="nav-links">
+             <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/get_users">Users</a></li>
+                <li><a href="/vehicles_dash">Vehicles</a></li>
+                <li><a href="/get_reports">Reports</a></li>
+    
+                <li>
+                   <a href="#" class="desktop-item">&nbsp;<i class="fa fa-user-circle fa-1x"></i></a>
+                   <input type="checkbox" id="showDrop">
+                   <label for="showDrop" class="mobile-item"></label>
+                   <ul class="drop-menu">
+                      <li><a href="#">Drop menu 1</a></li>
+                      <li><a href="#">Drop menu 2</a></li>
+                      <li><a href="#">Logout</a></li>
+                   </ul>
+                </li>
+        
+             </ul>
+             <label for="menu-btn" class="btn menu-btn"><i class="fas fa-bars"></i></label>
+       </div>
+        
+    </nav>
+ </div>
+
+ <nav class="menusidebar homeside" style="width: 210px;padding: 10px;border-right:1px solid var(--border-color);display: flex;flex-direction: column;height: calc(100vh - 70px);margin-top: 70px;">
+    <div style="width:100%;" class="b9">
+       <a href="/cctv_pendingaction" style="border:none !important;height:auto !important;display:flex;justify-content:center;align-items:center;padding:0 !important;font-size:14px;" class="navbar-brand ">
+          <p class="menu-1 "  style="text-align: center;display:flex;justify-content:center;align-items:center;">
+             <i class="fa fa-exclamation-circle" aria-hidden="true"></i><br><br>
+            <span class="link_p text"  style="font-size:14px;color: whitesmoke;margin-left: 10px;">Pending Action</span>
+          </p>
+ 
+    </a>
+ </div>
+ 
+ </nav>
+ -->
+
+
+
+
+
+
+
+
+
+<nav id="sidebar" class="navbar navbar-expand-md navbar-dark bg-dark navbar-fixed-top" style="background-color: #07021e!important; position:fixed;" >
+<div class="container-fluid">
+    
+        <a class="navbar-brand " href="/home" style="padding-right: 140px; padding-left: 57px;">SmartPlate</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+<div class="collapse navbar-collapse" id="navbarNavDropdown">
+  <ul class="navbar-nav nav-tabs abc">
+    <li class="nav-item">
+      <a class="nav-link" aria-current="page" href="/home"><h5>Home</h5></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link " href="/vehicles_dash"><h5>Vehicles</h5></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/get_users"><h5>Users</h5></a>
+    </li>
+    <li class="nav-item dropdown" style="padding-left: 858px;">
+      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-person-circle"></i>
+      </a>
+      <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="left: auto;">
+        <li class="dropdown-item" href="#">
+        <div>
+            <h3 style="font-size: 18px;margin-top: 9px;text-transform: capitalize;">Saurabh</h3>
+            <h6 style="text-transform: capitalize;">Administrator</h7>
+        </div>
+        </li>
+        <li><a class="dropdown-item" href="#">Account Setting</a></li>
+        <li  slot="border-top: 2px border-color: black border-top-style: groove;"><a class="dropdown-item" href="/logout">Logout</a></li>
+      </ul>
+    </li>
+  </ul>
+</div>
+</div>
+</nav>

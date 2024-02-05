@@ -1,0 +1,190 @@
+{% extends 'new_header.html' %}
+
+{% block nav  %}
+
+{% include 'nav.html' %}
+{% endblock %}
+
+
+
+
+{% block content %}
+
+<div class="card table-card" >
+    <div class="row">
+        <div class="col-lg-7"  style="border-bottom: 1px solid #00000030;">
+            <h2 class="page-title"> <small>List Of added Users</small> </h2>
+        </div>
+        <div class="col-lg-5" style="border-bottom: 1px solid #00000030;">
+            <button type="button" style="float: right; margin: 10px 10px 10px 10px ;background-color: #315a83;
+    border-color: #315a83;" class="btn btn-primary btn-sm" data-placement="top" onclick="addUser();" data-original-title=".btn .btn-default .btn-sm" aria-describedby="tooltip753069">Add User</button>
+        </div>
+        
+  
+    </div>
+
+
+    <div class="col-md-6 hidden-xs" style="margin: 10px 2px 30px ;">
+        <div class="dataTables_length" id="user-datatable-table_length">
+          <label>
+            <select name="user-datatable-table_length" aria-controls="user-datatable-table" class="">
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+
+
+    
+    <table id="user-table" class="table" style=" --bs-table-bg: whitesmoke;" >
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Employee ID</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Active Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{user.name}}</td>
+                <td>{{user.employee_id}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.staff_status}}</td>
+                <td>{{user.active_status}}</td>
+                <td><a href="/edit_user" class=" btn"><i class="fa fa-edit fa-1x"></i></a>
+                    <a href="/del_user" class="btn"><i class="fa fa-trash fa-1x"></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Add User Model -->
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="adduserModal" tabindex="-1" role="dialog" aria-labelledby="adduserModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content" style="background-clip: padding-box;">
+        <div class="modal-header new-modal-header">
+          <h6 class="modal-title" id="adduserModalLabel"><small>Add User Details</small></h6>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closemodal()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="container-fluid">
+               <div class="row col-lg-12">
+                    <div class="col-lg-6 form-group"style="padding: 5px;" > 
+                        <label style="color: var(--white);font-weight: 600;font-size: 13px;" for="addUsernameDXB">Add Name</label>
+                        <input type="text" class="form-control" id="addUsernameDXB" name="username">
+                    </div>
+                    <div class="form-group tempsing-formsmtp col-lg-6" style="padding: 5px";>
+                        
+                            <label style="color: var(--white);font-weight: 600;font-size: 13px" for="addEmailDXB">Add User Email</label>
+                            <input type="email" class="form-control" id="addEmailDXB" name="email">
+                    </div>
+                    <div class="col-lg-6 form-group tempsing-formsmtp" style="padding: 5px;" >
+                        <label style="color: var(--white);font-weight: 600;font-size: 13px;" for="addContactDXB">Contact No.</label>
+                        <input type="number" class="form-control" id="addContactDXB" name="contact">
+                    </div>
+
+                    <div class="col-lg-6 form-group tempsing-formsmtp" style="padding: 5px;" >
+                        <label style="color: var(--white);font-weight: 600;font-size: 13px;" for="addPasswordDXB">Set Password</label>
+                        <input type="password" class="form-control" id="addPasswordDXB" name="password">
+                    </div>
+
+                    <div class="col-lg-6 form-group " style="padding: 5px;">
+                        <label style="color: var(--white);font-weight: 600;font-size: 13px;" for="addDesignationDXB">Add Status</label>
+                        <select class="form-control" id="addStatusDXB" name="status" title="Add User Status">
+                            <option style="font-size: 13px;">Select Status</option>
+                            <option style="font-size: 13px;"value="super_administrator">Super Administrator</option>
+                            <option style="font-size: 13px;"value="administrator">Administrator</option>
+                            <option style="font-size: 13px;"value="support">Support</option>
+                            <option style="font-size: 13px;"value="security">Security</option>
+                            <option  style="font-size: 13px;"value="helpdesk">Helpdesk</option>
+                        </select>
+                    </div>
+                    
+            </div>
+        </div>
+        <div class="modal-footer" style="margin-top: 20px;">
+            <button type="button" style="float: right; margin: 10px 10px 10px 10px ;background-color: #315a83;
+            border-color: #315a83;" class="btn btn-primary btn-sm" data-placement="top" onclick="addUserDetails();" data-original-title=".btn .btn-default .btn-sm" aria-describedby="tooltip753069">Add User Details</button>
+            </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+{% include 'footer.html' %}
+
+{% endblock %}
+
+
+{% block footer %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+      fetch('/get_users')
+        .then(response => response.json())
+        .then(users => {
+          console.log(response)
+          const userTable = document.getElementById('user-table').getElementsByTagName('tbody')[0];
+          users.forEach(user => {
+            const row = userTable.insertRow(-1);
+            const cell1 = row.insertCell(0);
+            const cell2 = row.insertCell(1);
+            const celll3 = row.insertCell(2);
+            const celll4 = row.inertCell(3);
+            const celll5 = row.inserCell(4);
+            cell1.textContent = user.name;
+            cell2.textContent = user.employee_id;
+            celll3.textContent = user.email;
+            celll4.textContent = user.staff_status;
+            celll5.textContent = user.active_status;
+          });
+        })
+        .catch(error => {
+          console.error('Error fetching users:', error);
+        });
+    });
+
+
+    function addUser(){
+      $("#adduserModal").modal("show");
+
+    }
+
+    function closemodal(){
+        $("#adduserModal").modal("hide")
+    }
+    function addUserDetails(){
+      var adduser_data = {
+        username : document.getElementById("addUsernameDXB").value,
+        email : document.getElementById("addEmailDXB").value,
+        password : document.getElementById("addPasswordDXB").value,
+        contact : document.getElementById("addContactDXB").value,
+        staff_status : document.getElementById("addStatusDXB").value
+        }
+        console.log(adduser_data)
+    
+    }
+</script>
+
+
+
+
+{% endblock %}
