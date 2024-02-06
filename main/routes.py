@@ -60,9 +60,19 @@ def setcookie():
     
       # Initializing response object 
     resp = make_response('Setting the cookie')  
-    resp.set_cookie('GFG','ComputerScience Portal',) 
+    resp.set_cookie('GFG','ComputerScience Portaal',) 
     return resp 
-  
+
+@app.route('/logout')
+def logout():
+    resp = make_response(render_template('login.html'))
+    resp.set_cookie('token',expires=0)
+    return  resp
+
+
 app.run()
+
+
+
 
 
