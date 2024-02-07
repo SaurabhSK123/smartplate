@@ -138,3 +138,57 @@ class User:
     
         except Exception as e:
             print(e)
+
+    # Add Users
+    def add_users_data(self):
+        try:
+
+            data = request.json
+            user = {}
+            user['name'] = data['username']
+            user['email'] = data['email']
+            user['password'] = data['password']
+            user['contact'] = data['contact']
+            user['staff_status'] = data['staff_status']
+            # Salting Password
+            salt_rounds = 12  # Adjust this value as needed
+            salt = bcrypt.gensalt(rounds=salt_rounds)
+
+            # Hash the password with the generated salt
+            hashed_password = bcrypt.hashpw(user['password'].encode('utf-8'), salt)
+            user['password'] = hashed_password.decode('utf-8')
+
+            # Check User Exists or Not             
+            checkuser = users_collection.find_one({ 'email' :  user['email']})
+            
+            if checkuser == None:
+                users_collection.insert_one(user)
+                return jsonify({"status":"success", "message" : "User Added Successfully " })
+            else:
+                return jsonify({"status":"failed", "message" : "User already Exists "})
+        
+        except:
+
+            return jsonify({"status":"failed" , "message" : "Server Side Error"})
+
+
+    # Add Vehicle Details
+    def add_vehicles_data(self):
+        try:
+            vehicles = {}
+            data = request.json
+            vehicles['vehicle_no'] = data['vehicle_no']
+            vehicles['owner_name'] = data['owner_name']
+            vehicles['owner_licence'] = data['owner_licence']
+            vehicles['vehicle_type'] = data['vehicle_type']
+            
+            checkvehicle = vehicle_collection.find_one({'vehicle_no' :  vehicles['vehicle_no']})
+            
+            if checkvehicle == None:
+                vehicle_collection.insert_one(vehicles)
+                return jsonify({"status":"success", "message" : "Vehicle Added Successfully " })
+            else:
+                return jsonify({"status":"failed", "message" : "Vehicle already Exists "})
+
+        except:    
+            return jsonify({"status":"failed" , "message" : "Server Side Error"})

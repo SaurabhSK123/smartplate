@@ -179,7 +179,37 @@
         contact : document.getElementById("addContactDXB").value,
         staff_status : document.getElementById("addStatusDXB").value
         }
-        
+      console.log(adduser_data)
+
+
+      var add_user_data_url = {
+        "url": "http://localhost:5000/add_users",
+        "method": "POST",
+        "timeout": 0,
+        "headers": {
+        "Content-Type": "application/json"
+        },
+        "data": JSON.stringify(adduser_data),
+        };
+
+        $.ajax(add_user_data_url).done(function (response) {
+          console.log(response.status)
+          console.log(response.message)
+          if(response.status == "success" )
+          {
+          success ('success', response.message)
+          setTimeout(function() {
+             window.location.href = "/get_users";
+           }, 1000); 
+          }
+          else{
+              
+           success ('error', response.message)
+          
+           
+           }
+          });
+          
     
     }
 </script>
