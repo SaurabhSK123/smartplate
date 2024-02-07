@@ -130,6 +130,15 @@ class User:
         except Exception as e:
             print(e)
     
+    # get locations list
+    def get_location_list(self):
+        try:
+            location_list = list(location_collection.find({},{'_id':0}))
+            return(location_list)
+        except Exception as e:
+            print(e)
+
+    
     # get Vehicle Details
     def get_vehicle_list(self):
         try:
@@ -189,6 +198,27 @@ class User:
                 return jsonify({"status":"success", "message" : "Vehicle Added Successfully " })
             else:
                 return jsonify({"status":"failed", "message" : "Vehicle already Exists "})
+
+        except:    
+            return jsonify({"status":"failed" , "message" : "Server Side Error"})
+
+    # Add Location Details
+    def add_location_data(self):
+        try:
+            location = {}
+            data = request.json
+            location['location_name'] = data['location_name']
+            location['area'] = data['area']
+            location['city'] = data['city']
+            location['state'] = data['state']
+            
+            checklocation = location_collection.find_one({'location_name' :  location['location_name']})
+            
+            if checklocation == None:
+                location_collection.insert_one(location)
+                return jsonify({"status":"success", "message" : "Location Added Successfully " })
+            else:
+                return jsonify({"status":"failed", "message" : "Location already Exists "})
 
         except:    
             return jsonify({"status":"failed" , "message" : "Server Side Error"})

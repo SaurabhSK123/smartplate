@@ -169,7 +169,7 @@ border-color: #315a83;" class="btn btn-primary btn-sm" data-placement="top" oncl
       owner_licence : document.getElementById("addOwnerLicenceDXB").value,
       vehicle_type : document.getElementById("addVehicleTypeDXB").value
     }
-    var add_user_data_url = {
+    var add_vehicle_data_url = {
       "url": "http://localhost:5000/add_vehicles",
       "method": "POST",
       "timeout": 0,
@@ -179,7 +179,7 @@ border-color: #315a83;" class="btn btn-primary btn-sm" data-placement="top" oncl
       "data": JSON.stringify(add_vehicle_data),
       };
 
-      $.ajax(add_user_data_url).done(function (response) {
+      $.ajax(add_vehicle_data_url).done(function (response) {
         console.log(response.status)
         console.log(response.message)
         if(response.status == "success" )

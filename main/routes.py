@@ -103,6 +103,25 @@ def anpr_home():
    return render_template('anpr_home.html')
 
 
+@app.route('/locations')
+@check_for_token
+def location():
+   return render_template('location.html')
+   
+
+@app.route('/get_location')
+@check_for_token
+def get_location():
+    data = User()
+    return data.get_location_list() 
+
+
+@app.route('/add_location',methods=['POST'])
+@check_for_token
+def add_location():
+    data = User()
+    return data.add_location_data()
+
 app.run()
 
 
