@@ -1,0 +1,208 @@
+{% extends 'new_header.html' %}
+
+{% block nav %}
+
+{% include 'nav.html' %}
+{% endblock %}
+
+{% block content %}
+
+
+<div class="card table-card">
+  <div class="row">
+    <div class="col-lg-7 " style="border-bottom: 1px solid #00000030;">
+      <h2 class="page-title"> <small>List of Added Locations </small> </h2>
+    </div>
+    <div class="col-lg-5" style="border-bottom: 1px solid #00000030;">
+      <button type="button" style="float: right; margin: 10px 10px 10px 10px ;background-color: #315a83;
+border-color: #315a83;" class="btn btn-primary btn-sm" data-placement="top" onclick="addlocation();"
+        data-original-title=".btn .btn-default .btn-sm" aria-describedby="tooltip753069">Add Location</button>
+    </div>
+
+
+
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="col-md-6 hidden-xs" style="margin: 10px 2px 30px ;">
+      <div class="dataTables_length" id="location-datatable-table_length">
+        <label>
+          <select name="location-datatable-table_length" aria-controls="location-datatable-table" class="">
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+        </label>
+      </div>
+    </div>
+
+  </div>
+  <table id="location-table" class="table" style="opacity: 0.8;scrollbar-gutter: stable; --bs-table-bg: whitesmoke;">
+    <thead>
+      <tr>
+        <th>Location Name</th>
+        <th>Area</th>
+        <th>City</th>
+        <th>State</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="location_tbody">
+
+    </tbody>
+  </table>
+
+</div>
+</div>
+
+
+ <!-- Modal Add  Vehicles-->
+ <div class="modal fade" id="addLocationModal" tabindex="-1" role="dialog" aria-labelledby="addLocationModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="background-clip: padding-box;">
+      <div class="modal-header new-modal-header">
+        <h6 class="modal-title" id="addLocationModalLabel"><small>Add Location Details</small></h6>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="container-fluid">
+
+             <div class="row col-lg-12">
+              <div class="col-lg-6 form-group"> 
+                  
+                  
+                      <label style="color: var(--white);font-weight: 600;font-size: 13px;" for="addLocationNameDXB">Add Location
+                      </label>
+                      <input type="text" class="form-control" id="addLocationNameDXB" name="location_name">
+                  </div>
+                  <div class="form-group tempsing-formsmtp col-lg-6">
+                      
+                          <label style="color: var(--white);font-weight: 600;font-size: 13px" for="addAreaDXB">Add Area</label>
+                          <input type="text" class="form-control" id="addAreaNameDXB" name="location_area">
+                  </div>
+                  <div class="form-group tempsing-formsmtp col-lg-6">
+                      
+                      <label style="color: var(--white);font-weight: 600;font-size: 13px" for="addCityDXB">Add City</label>
+                      <input type="text" class="form-control" id="addCityDXB" name="location_city">
+                  </div>
+                  <div class="form-group tempsing-formsmtp col-lg-6">
+                      
+                      <label style="color: var(--white);font-weight: 600;font-size: 13px" for="addStateDXB">Add State</label>
+                      <input type="text" class="form-control" id="addStateDXB" name="state_name">
+                  </div>
+                  
+          </div>
+      </div>
+      <div class="modal-footer" style="margin-top: 20px;">
+          <button type="button" style="float: right; margin: 10px 10px 10px 10px ;background-color: #315a83;
+          border-color: #315a83;" class="btn btn-primary btn-sm" data-placement="top" onclick="addLocationDetails();" data-original-title=".btn .btn-default .btn-sm" aria-describedby="tooltip753069">Add Location Details</button>
+          </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{% include 'footer.html' %}
+
+
+{% endblock %}
+
+{% block footer %}
+
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', () => {
+      fetch('/get_location')
+        .then(response => response.json())
+        .then(locations => {
+          console.log("HIIIIIIII")
+          if (locations.length > 0) {
+            $("#location_tbody").empty()
+            for (i = 0; i < locations.length; i++) {
+              $("#location_tbody").append(`
+                  <tr>
+                    <td>${locations[i].location_name}</td>
+                    <td>${locations[i].area}</td>
+                    <td>${locations[i].city}</td>
+                    <td>${locations[i].state}</td>
+                    <td><a href="/edit_user" class=" btn"><i class="fa fa-edit fa-1x"></i></a>
+                    <a href="/del_user" class="btn"><i class="fa fa-trash fa-1x"></i></a></td>
+                    
+                  </tr>`)
+            }
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching users:', error);
+        });
+    });
+  
+  
+     function addlocation(){
+      $("#addLocationModal").modal("show");
+    };
+  
+    function closeModal(){
+      $("#addLocationModal").modal("hide");
+    }
+
+
+
+    function addLocationDetails(){
+        var location_data = {
+          location_name : document.getElementById("addLocationNameDXB").value,
+          area : document.getElementById("addAreaNameDXB").value,
+          city : document.getElementById("addCityDXB").value,
+          state : document.getElementById("addStateDXB").value,
+          }
+        console.log(location_data)
+  
+  
+        var location_data_url = {
+          "url": "http://localhost:5000/add_location",
+          "method": "POST",
+          "timeout": 0,
+          "headers": {
+          "Content-Type": "application/json"
+          },
+          "data": JSON.stringify(location_data),
+          };
+  
+          $.ajax(location_data_url).done(function (response) {
+            console.log(response.status)
+            console.log(response.message)
+            if(response.status == "success" )
+            {
+            success ('success', response.message)
+            setTimeout(function() {
+               window.location.href = "/locations";
+             }, 1000); 
+            }
+            else{
+                
+             success ('error', response.message)
+            
+             
+             }
+            });
+            
+        }  
+
+</script>
+{% endblock %}

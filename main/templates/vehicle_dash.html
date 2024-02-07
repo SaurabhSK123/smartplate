@@ -70,60 +70,46 @@ border-color: #315a83;" class="btn btn-primary btn-sm" data-placement="top" oncl
 
 
  <!-- Modal Add  Vehicles-->
- <div class="modal fade" id="addvehicleModal" tabindex="-1" role="dialog" aria-labelledby="adduserModalLabel" aria-hidden="true">
+ <div class="modal fade" id="addVehicleModal" tabindex="-1" role="dialog" aria-labelledby="addVehicleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content" style="background-clip: padding-box;">
       <div class="modal-header new-modal-header">
-        <h6 class="modal-title" id="adduserModalLabel"><small>Add User Details</small></h6>
+        <h6 class="modal-title" id="addVehicleModalLabel"><small>Add Vehicle Details</small></h6>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
           <div class="container-fluid">
-              <!-- <div class="row">
-                <div class="col-md-4">
-                  <div class="form-group">
-                      <label style="color: var(--white);font-weight: 600;font-size: 13px;" for="addUsernameDXB">Add Name</label>
-                      <input type="text" class="form-control" id="addUsernameDXB" name="username">
-                  </div>
-                  <div class="col-md-4 .ml-auto">
-                      <div class="form-group tempsing-formsmtp">
-                          <label style="color: var(--white);font-weight: 600;font-size: 13px" for="addEmailDXB">Add User Email</label>
-                          <input type="email" class="form-control" id="addEmailDXB" name="email">
-                      </div>
-                  </div>
-               
-              </div>
-             </div> -->
+
              <div class="row col-lg-12">
               <div class="col-lg-6 form-group"> 
                   
                   
-                      <label style="color: var(--white);font-weight: 600;font-size: 13px;" for="addUsernameDXB">Add Name</label>
-                      <input type="text" class="form-control" id="addUsernameDXB" name="username">
+                      <label style="color: var(--white);font-weight: 600;font-size: 13px;" for="addVehicleNoDXB">Add Vehicle No</label>
+                      <input type="text" class="form-control" id="addVehicleNoDXB" name="vehicle_no">
                   </div>
                   <div class="form-group tempsing-formsmtp col-lg-6">
                       
-                          <label style="color: var(--white);font-weight: 600;font-size: 13px" for="addEmailDXB">Add User Email</label>
-                          <input type="email" class="form-control" id="addEmailDXB" name="email">
+                          <label style="color: var(--white);font-weight: 600;font-size: 13px" for="addOwnerDXB">Add Owner Name</label>
+                          <input type="text" class="form-control" id="addOwnerNameDXB" name="owner_name">
                   </div>
                   <div class="form-group tempsing-formsmtp col-lg-6">
                       
-                      <label style="color: var(--white);font-weight: 600;font-size: 13px" for="addEmailDXB">Add User Email</label>
-                      <input type="email" class="form-control" id="addEmailDXB" name="email">
+                      <label style="color: var(--white);font-weight: 600;font-size: 13px" for="addOwnerLicenceDXB">Add Owner Licence</label>
+                      <input type="text" class="form-control" id="addOwnerLicenceDXB" name="owner_licence">
                   </div>
                   <div class="form-group tempsing-formsmtp col-lg-6">
                       
-                      <label style="color: var(--white);font-weight: 600;font-size: 13px" for="addEmailDXB">Add User Email</label>
-                      <input type="email" class="form-control" id="addEmailDXB" name="email">
+                      <label style="color: var(--white);font-weight: 600;font-size: 13px" for="addVehicleTypeDXB">Add Vehicle Type</label>
+                      <input type="text" class="form-control" id="addVehicleTypeDXB" name="vehicle_type">
                   </div>
                   
           </div>
       </div>
       <div class="modal-footer" style="margin-top: 20px;">
           <button type="button" style="float: right; margin: 10px 10px 10px 10px ;background-color: #315a83;
-          border-color: #315a83;" class="btn btn-primary btn-sm" data-placement="top" onclick="addUserDetails();" data-original-title=".btn .btn-default .btn-sm" aria-describedby="tooltip753069">Add User Details</button>
+          border-color: #315a83;" class="btn btn-primary btn-sm" data-placement="top" onclick="addVehicleDetails();" data-original-title=".btn .btn-default .btn-sm" aria-describedby="tooltip753069">Add User Details</button>
           </div>
 
       </div>
@@ -169,13 +155,50 @@ border-color: #315a83;" class="btn btn-primary btn-sm" data-placement="top" oncl
 
 
    function addVehicle(){
-    $("#addvehicleModal").modal("show");
+    $("#addVehicleModal").modal("show");
   };
 
   function closeModal(){
-    $("#addvehicleModal").modal("hide");
+    $("#addVehicleModal").modal("hide");
   }
-  
+
+  function addVehicleDetails(){
+    add_vehicle_data = {
+      vehicle_no : document.getElementById("addVehicleNoDXB").value,
+      owner_name : document.getElementById("addOwnerNameDXB").value,
+      owner_licence : document.getElementById("addOwnerLicenceDXB").value,
+      vehicle_type : document.getElementById("addVehicleTypeDXB").value
+    }
+    var add_vehicle_data_url = {
+      "url": "http://localhost:5000/add_vehicles",
+      "method": "POST",
+      "timeout": 0,
+      "headers": {
+      "Content-Type": "application/json"
+      },
+      "data": JSON.stringify(add_vehicle_data),
+      };
+
+      $.ajax(add_vehicle_data_url).done(function (response) {
+        console.log(response.status)
+        console.log(response.message)
+        if(response.status == "success" )
+        {
+        success ('success', response.message)
+        setTimeout(function() {
+           window.location.href = "/vehicles_dash";
+         }, 1000); 
+        }
+        else{
+            
+         success ('error', response.message)
+        
+         
+         }
+        });
+
+  }
+
 </script>
 
 

@@ -43,3 +43,7 @@
     border-top-right-radius: 0rem !important;
 }
 
+.card-contents{
+    margin: 70px 11px 104px 242px !important;
+    padding: 10px 10px 10px 10px !important;
+}
