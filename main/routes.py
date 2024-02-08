@@ -49,6 +49,16 @@ def getusers():
 
    return render_template('user_dash.html',users=resp)
 
+@app.route('/add_cctv')
+@check_for_token
+def get_cctv_page():
+   return render_template('cctv.html')
+
+@app.route('/get_live')
+@check_for_token
+def get_live():
+   return render_template('live.html')
+
 
 
 @app.route('/vehicles_dash')
@@ -121,6 +131,9 @@ def get_location():
 def add_location():
     data = User()
     return data.add_location_data()
+
+
+
 
 app.run()
 
