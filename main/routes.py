@@ -5,11 +5,16 @@ from main import app , db
 from main.models import *
 import jwt
 import datetime
+from .prediction import *
 app.config['SECRET_KEY'] = 'This is Secret Key'
 
 
 
 
+@app.route('/ping',methods=['GET'])
+def ping():
+    data = { "ping" : "pong" }
+    return data
 @app.route('/user/signup', methods=['POST'])
 def signup_post():
     data = User()
@@ -68,7 +73,7 @@ def vehicle_dash():
 
 
 
-@app.route('/get_vehicles',methods=['GET'])
+@app.route('/get_vehicles',methods=['POST'])
 @check_for_token
 def getvehicles():
    print("HIIII")
@@ -131,6 +136,29 @@ def get_location():
 def add_location():
     data = User()
     return data.add_location_data()
+
+
+
+@app.route('/uploadandget',methods=['POST'])
+@check_for_token
+def upload_and_get():
+   
+   if 'file' not in request.files:
+      return jsonify({"status":"failed", "message" : " No file part" }), 400
+
+   file = request.files['file']
+   
+    # Check if the file is empty
+   if file.filename == '':
+      return jsonify({'status': "failed", "message": 'No selected file'}), 400\
+      
+   no_plate = detect_plate(file)
+   print(no_plate)
+   user= User()
+   v_list = user.get_vehicle_list(_data=no_plate)
+   return v_list
+      
+
 
 
 

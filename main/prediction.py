@@ -1,14 +1,26 @@
 import numpy as np
-import requests
+# import requests
 import cv2
 import pytesseract as pyt
 from PIL import Image
-import xmltodict
-import json
+# import xmltodict
+# import json
+import os
+from werkzeug.datastructures import FileStorage
+from io import BytesIO
 
-def detect_plate(img):
-      car_cascade = cv2.CascadeClassifier("./templates/Indianplates.xml")
-      gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+def detect_plate(img):  
+      file_contents = img.read()
+
+      # Convert the file contents to a bytes-like object
+      bytes_data = BytesIO(file_contents)
+
+      # Use OpenCV to read the image from the bytes-like object
+      img = cv2.imdecode(np.frombuffer(bytes_data.read(), np.uint8), cv2.IMREAD_COLOR)      
+      file_path = os.path.join(os.path.dirname(__file__), 'Indianplates.xml')
+      car_cascade = cv2.CascadeClassifier(file_path)
+      # car_cascade = cv2.CascadeClassifier("./Indianplates.xml")
+      # gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
       if img is not None:
             gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             cars = car_cascade.detectMultiScale(gray, 1.1, 50)
@@ -36,21 +48,21 @@ def detect_plate(img):
             for j in num:
                   if i == j:
                         number += i
-      print(number)
+      
       return(number)
 
-def get_vehicle_info(plate_number):
-    r = requests.get("http://www.regcheck.org.uk/api/reg.asmx/CheckIndia?RegistrationNumber={0}&username=vikas@123".format(str(plate_number)[:10]))
-    data = xmltodict.parse(r.content)
-    jdata = json.dumps(data)
-    df = json.loads(jdata)
-    df1 = json.loads(df['Vehicle']['vehicleJson'])
-    return [df1["Description"],
-           df1["RegistrationYear"],
-           df1["EngineSize"]["CurrentTextValue"],
-           df1["NumberOfSeats"]["CurrentTextValue"],
-           df1["VechileIdentificationNumber"],
-           df1["EngineNumber"],
-           df1["FuelType"]["CurrentTextValue"],
-           df1["RegistrationDate"],
-           df1["Location"]]
+# def get_vehicle_info(plate_number):
+#     r = requests.get("http://www.regcheck.org.uk/api/reg.asmx/CheckIndia?RegistrationNumber={0}&username=vikas@123".format(str(plate_number)[:10]))
+#     data = xmltodict.parse(r.content)
+#     jdata = json.dumps(data)
+#     df = json.loads(jdata)
+#     df1 = json.loads(df['Vehicle']['vehicleJson'])
+#     return [df1["Description"],
+#            df1["RegistrationYear"],
+#            df1["EngineSize"]["CurrentTextValue"],
+#            df1["NumberOfSeats"]["CurrentTextValue"],
+#            df1["VechileIdentificationNumber"],
+#            df1["EngineNumber"],
+#            df1["FuelType"]["CurrentTextValue"],
+#            df1["RegistrationDate"],
+#            df1["Location"]]

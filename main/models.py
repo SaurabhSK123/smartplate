@@ -54,8 +54,8 @@ def create_token(email,password):
 
 class User:    
 
-
-
+    def __init__(self) -> None:
+        pass
     # Signup User
     def signup(self):
         try:
@@ -140,10 +140,18 @@ class User:
 
     
     # get Vehicle Details
-    def get_vehicle_list(self):
+    def get_vehicle_list(self,_data=None):
+        print(_data)
         try:
-            vehicel_list = list(vehicle_collection.find({},{'_id':0}))
-            return(vehicel_list)
+            if _data != None:
+                vehicel_list = list(vehicle_collection.find({'vehicle_no': _data },{'_id':0}))
+                if vehicel_list == []:
+                    vehicel_list = [{'vehicle_no': _data , 'owner_name': 'Unknown', 'owner_licence': '-', 'vehicle_type': '-', 'fine_status': '-', 'status': 'Unauthorised'}]
+                    return jsonify({"status":"failed", "message" : "Vehicle is Unauthorised", "data" : vehicel_list })
+            else:
+                vehicel_list = list(vehicle_collection.find({},{'_id':0}))
+            print(vehicel_list)
+            return jsonify ({"status":"success", "message" : "Vehicle is Authorised", "data": vehicel_list  })
     
         except Exception as e:
             print(e)
@@ -222,3 +230,7 @@ class User:
 
         except:    
             return jsonify({"status":"failed" , "message" : "Server Side Error"})
+
+
+   
+    

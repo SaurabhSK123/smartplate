@@ -7,6 +7,7 @@
     <div class="position-sticky">
        <div class="list-group list-group-flush mx-3 mt-4">
         <a href="#" class="list-group-item list-group-item-action py-2 ripple">
+            <i class="fa fa-upload fa-1x" aria-hidden="true"></i><span>    Upload Image/Video</span>
          </a>
 
         </div>
@@ -18,8 +19,349 @@
 
 {% block content %}
 
-{% endblock %}
+<div class="card-contents" style="padding: 10px 10px 2px 20px !important"  >
+        <div class="row">
+            
+          <div class="col-md-7">
+               
+            <div class="card h-100" style="height: 80vh !important; opacity: 0.8 ; padding: 2px" >
+            <div class="card-body">
+                <div class="row">
+                    <h5>Upload Image or Video</h5>
+                    <hr>
+                </div>
+                <div class="upload-section">
+                    
 
-{% block footer %}
+                    <input type="file" accept="image/*,video/*" onchange="previewFile(event)">
+                    <div id="preview"></div>
+                  
+                </div>
+               
+             </div> 
+             <div>
+                <button type="button" style="float: right; margin: 10px 10px 10px 10px ;background-color: #315a83;
+                border-color: #315a83;" class="btn btn-primary btn-sm" data-placement="top" onclick="UploadandGet();" data-original-title=".btn .btn-default .btn-sm" aria-describedby="tooltip753069">Get Details</button>
+                </div>      
+            </div>         
+          </div>
+
+
+          <div class="col-md-5">
+            <div class="card h-100" style="height: 80vh !important; opacity: 0.8 ; padding: 2px" >
+                <div class="card-body">
+                    <div class="row">
+                        <h5>Details</h5>
+                        <hr>
+                    </div>
+                    <div id="upload_details" class="table" style="opacity: 0.8;scrollbar-gutter: stable;">
+                       
+                    </div>
+                    <button id="AddFine" type="button" style="float: right; display:none ;margin: 10px 10px 10px 10px ;background-color: #315a83;
+                    border-color: #315a83;" class="btn btn-primary btn-sm" data-placement="top" onclick="addFine();" data-original-title=".btn .btn-default .btn-sm" aria-describedby="tooltip753069">Add Fine</button>
+                    
+
+                    <button id="AddVehicle" type="button" style="float: left; display:none ;margin: 10px 10px 10px 10px ;background-color: #315a83;
+                    border-color: #315a83;" class="btn btn-primary btn-sm" data-placement="top" onclick="addVehicle();" data-original-title=".btn .btn-default .btn-sm" aria-describedby="tooltip753069">Add Vehicle</button>
+                    
+                </div>
+            </div>
+          </div>
+
+        </div>
+     
+    
+</div>
+
+
+
+
+
+<div class="modal fade" id="addVehicleModal" tabindex="-1" role="dialog" aria-labelledby="addVehicleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content" style="background-clip: padding-box;">
+        <div class="modal-header new-modal-header">
+          <h6 class="modal-title" id="addVehicleModalLabel"><small>Add Vehicle Details</small></h6>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="container-fluid">
+  
+               <div class="row col-lg-12">
+                <div class="col-lg-6 form-group"> 
+                    
+                    
+                        <label style="color: var(--white);font-weight: 600;font-size: 13px;" for="addVehicleNoDXB">Add Vehicle No</label>
+                        <input type="text" class="form-control" id="addVehicleNoDXB" name="vehicle_no">
+                    </div>
+                    <div class="form-group tempsing-formsmtp col-lg-6">
+                        
+                            <label style="color: var(--white);font-weight: 600;font-size: 13px" for="addOwnerDXB">Add Owner Name</label>
+                            <input type="text" class="form-control" id="addOwnerNameDXB" name="owner_name">
+                    </div>
+                    <div class="form-group tempsing-formsmtp col-lg-6">
+                        
+                        <label style="color: var(--white);font-weight: 600;font-size: 13px" for="addOwnerLicenceDXB">Add Owner Licence</label>
+                        <input type="text" class="form-control" id="addOwnerLicenceDXB" name="owner_licence">
+                    </div>
+                    <div class="form-group tempsing-formsmtp col-lg-6">
+                        
+                        <label style="color: var(--white);font-weight: 600;font-size: 13px" for="addVehicleTypeDXB">Add Vehicle Type</label>
+                        <input type="text" class="form-control" id="addVehicleTypeDXB" name="vehicle_type">
+                    </div>
+                    
+            </div>
+        </div>
+        <div class="modal-footer" style="margin-top: 20px;">
+            <button type="button" style="float: right; margin: 10px 10px 10px 10px ;background-color: #315a83;
+            border-color: #315a83;" class="btn btn-primary btn-sm" data-placement="top" onclick="addVehicleDetails();" data-original-title=".btn .btn-default .btn-sm" aria-describedby="tooltip753069">Add Vehicle Details</button>
+            </div>
+  
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <div class="modal fade" id="addFineModal" tabindex="-1" role="dialog" aria-labelledby="addFineModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content" style="background-clip: padding-box;">
+        <div class="modal-header new-modal-header">
+          <h6 class="modal-title" id="addFineModalLabel"><small>Update Fine</small></h6>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="container-fluid">
+  
+               <div class="row col-lg-12">
+                <div class="col-lg-6 form-group"> 
+                    
+                    
+                        <label style="color: var(--white);font-weight: 600;font-size: 13px;" for="addVehicleNoDXB">Add Vehicle No</label>
+                        <input type="text" class="form-control" id="FaddVehicleNoDXB" name="vehicle_no">
+                    </div>
+                    <div class="form-group tempsing-formsmtp col-lg-6">
+                        
+                            <label style="color: var(--white);font-weight: 600;font-size: 13px" for="addOwnerDXB">Add Owner Name</label>
+                            <input type="text" class="form-control" id="FaddOwnerNameDXB" name="owner_name">
+                    </div>
+                    <div class="form-group tempsing-formsmtp col-lg-6">
+                        
+                        <label style="color: var(--white);font-weight: 600;font-size: 13px" for="addOwnerLicenceDXB">Add Owner Licence</label>
+                        <input type="text" class="form-control" id="FaddOwnerLicenceDXB" name="owner_licence">
+                    </div>
+                    <div class="form-group tempsing-formsmtp col-lg-6">
+                        
+                        <label style="color: var(--white);font-weight: 600;font-size: 13px" for="addVehicleTypeDXB">Add Vehicle Type</label>
+                        <input type="text" class="form-control" id="FaddVehicleTypeDXB" name="vehicle_type">
+                    </div>
+                    
+            </div>
+        </div>
+        <div class="modal-footer" style="margin-top: 20px;">
+            <button type="button" style="float: right; margin: 10px 10px 10px 10px ;background-color: #315a83;
+            border-color: #315a83;" class="btn btn-primary btn-sm" data-placement="top" onclick="updateFine();" data-original-title=".btn .btn-default .btn-sm" aria-describedby="tooltip753069">Update Fine</button>
+            </div>
+  
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+{% endblock %}
 {% include 'footer.html' %}
+{% block footer %}
+<script>
+    function previewFile(event) {
+        var preview = document.getElementById('preview');
+        preview.innerHTML = '';
+
+        var file = event.target.files[0];
+        var reader = new FileReader();
+
+        reader.onload = function (event) {
+            if (file.type.includes('image')) {
+                var img = new Image();
+                img.src = event.target.result;
+                preview.appendChild(img);
+            } else if (file.type.includes('video')) {
+                var video = document.createElement('video');
+                video.src = event.target.result;
+                video.controls = true;
+                preview.appendChild(video);
+            }
+        }
+
+        reader.readAsDataURL(file);
+    }
+
+ // Upload Image/Video and get Details
+
+
+ function UploadandGet() {
+    const fileInput = document.querySelector('input[type="file"]');
+    const file = fileInput.files[0];
+    
+    if (!file) {
+        alert('Please select a file.');
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    fetch('/uploadandget', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(resp => {
+        // Handle the response resp here
+        console.log(resp);
+        console.log(resp.status)
+        if(resp.status == "success")
+        {
+        success ('success', resp.message)
+        showAVDetails(resp)
+        }else{   
+        success ('error', resp.message)
+        showAVDetails(resp)
+        }
+        
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+
+function showAVDetails(resp){
+    $('#upload_details').empty().append(
+        `<table>
+            <tr>
+               <th style='padding:5px 190px 5px 5px' >Owner Name  </th>
+               <td>${resp.data[0].owner_name}</td> 
+            </tr>
+            <tr>
+                <th style='padding:5px 190px 5px 5px'>Owner Licence  </th>
+                <td>${resp.data[0].owner_licence}</td> 
+             </tr>
+             <tr>
+                <th style='padding:5px 190px 5px 5px' >Vehicle No </th>
+                <td>${resp.data[0].vehicle_no}</td> 
+             </tr>
+             <tr>
+                <th style='padding:5px 190px 5px 5px' >Vehicle Type </th>
+                <td>${resp.data[0].vehicle_type}</td> 
+             </tr>
+             <tr>
+                <th style='padding:5px 190px 5px 5px' >Current Fine </th>
+                <td>${resp.data[0].fine_status}</td> 
+             </tr>
+             <tr id="blink">
+                <th style='padding:5px 190px 5px 5px' >Vehicle Status </th>
+                <td>${resp.data[0].status}</td> 
+             </tr>
+        </table>`
+    )
+    if(resp.data[0].status == "Unauthorised"){
+        $('#AddFine').show()
+        $('#AddVehicle').show()
+        $('#blink').addClass("invalid")
+    }else if(resp.data[0].status == "Authorized"){
+        $('#AddFine').show() 
+        $('#AddVehicle').hide()
+
+    }
+    $('#addVehicleNoDXB').val(resp.data[0].vehicle_no)
+    $('#addOwnerNameDXB').val(resp.data[0].owner_name)
+    $('#addOwnerLicenceDXB').val(resp.data[0].owner_licence)
+    $('#addVehicleTypeDXB').val(resp.data[0].vehicle_type)
+    $('#FaddVehicleNoDXB').val(resp.data[0].vehicle_no)
+    $('#FaddOwnerNameDXB').val(resp.data[0].owner_name)
+    $('#FaddOwnerLicenceDXB').val(resp.data[0].owner_licence)
+    $('#FaddVehicleTypeDXB').val(resp.data[0].vehicle_type)
+
+}
+$(function() {
+    var on = false;
+    window.setInterval(function() {
+        on = !on;
+        if (on) {
+            $('.invalid').addClass('invalid-blink')
+        } else {
+            $('.invalid-blink').removeClass('invalid-blink')
+        }
+    }, 2000);
+});
+
+
+
+
+function addVehicle(){
+    $("#addVehicleModal").modal("show");
+  };
+function addFine(){
+    $('#addFineModal').modal("show");
+}
+
+  function closeModal(){
+    $("#addVehicleModal").modal("hide");
+    $('#addFineModal').modal("hide");
+
+
+  }
+
+  function addVehicleDetails(){
+    add_vehicle_data = {
+      vehicle_no : document.getElementById("addVehicleNoDXB").value,
+      owner_name : document.getElementById("addOwnerNameDXB").value,
+      owner_licence : document.getElementById("addOwnerLicenceDXB").value,
+      vehicle_type : document.getElementById("addVehicleTypeDXB").value
+    }
+    var add_vehicle_data_url = {
+      "url": "http://localhost:5000/add_vehicles",
+      "method": "POST",
+      "timeout": 0,
+      "headers": {
+      "Content-Type": "application/json"
+      },
+      "data": JSON.stringify(add_vehicle_data),
+      };
+
+      $.ajax(add_vehicle_data_url).done(function (response) {
+        console.log(response.status)
+        console.log(response.message)
+        if(response.status == "success" )
+        {
+        success ('success', response.message)
+        setTimeout(function() {
+           window.location.href = "/anpr_cam";
+         }, 1000); 
+        }
+        else{
+            
+         success ('error', response.message)
+        
+         
+         }
+        });
+
+  }
+
+</script>
+
+
+
 {% endblock %}

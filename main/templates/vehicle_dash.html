@@ -127,20 +127,24 @@ border-color: #315a83;" class="btn btn-primary btn-sm" data-placement="top" oncl
 <script>
 
   document.addEventListener('DOMContentLoaded', () => {
-    fetch('/get_vehicles')
+    fetch('/get_vehicles',{
+      method: 'POST',
+      body: null
+    })
       .then(response => response.json())
       .then(vehicles => {
         console.log("HIIIIIIII")
-        if (vehicles.length > 0) {
+        console.log(vehicles.data[0])
+        if (vehicles.data.length > 0) {
           $("#vehicle_tbody").empty()
-          for (i = 0; i < vehicles.length; i++) {
+          for (i = 0; i < vehicles.data.length; i++) {
             $("#vehicle_tbody").append(`
                 <tr>
-                  <td>${vehicles[i].vehicle_no}</td>
-                  <td>${vehicles[i].owner_name}</td>
-                  <td>${vehicles[i].vehicle_type}</td>
-                  <td>${vehicles[i].owner_licence}</td>
-                  <td>${vehicles[i].fine_status}</td>
+                  <td>${vehicles.data[i].vehicle_no}</td>
+                  <td>${vehicles.data[i].owner_name}</td>
+                  <td>${vehicles.data[i].vehicle_type}</td>
+                  <td>${vehicles.data[i].owner_licence}</td>
+                  <td>${vehicles.data[i].fine_status}</td>
                   <td><a href="/edit_user" class=" btn"><i class="fa fa-edit fa-1x"></i></a>
                   <a href="/del_user" class="btn"><i class="fa fa-trash fa-1x"></i></a></td>
                   

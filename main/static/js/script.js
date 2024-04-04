@@ -33,8 +33,3 @@ success('error', response.message)
 }
 });
 }
-
-
-
-
-
