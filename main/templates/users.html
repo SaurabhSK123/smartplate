@@ -1,0 +1,274 @@
+{% extends 'new_header.html' %}
+
+{% block nav  %}
+
+<nav id="sidebar" class="navbar navbar-expand-md navbar-dark bg-dark navbar-fixed-top" style="background-color: #07021e!important; position:fixed;" >
+    <div class="container-fluid">
+        
+            <a class="navbar-brand " href="/user" style="padding-right: 140px; padding-left: 57px;">SmartPlate</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav nav-tabs abc">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="/user"><h5>Home</h5></a>
+        </li>
+        <li class="nav-item">
+              
+          <a class="nav-link " href="#"><h5>Live</h5></a>
+        </li>
+
+        <li class="nav-item dropdown" style="padding-left: 940px;">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-person-circle"></i>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="left: auto;">
+            <li class="dropdown-item" href="#">
+            <div>
+                <h3 style="font-size: 18px;margin-top: 9px;text-transform: capitalize;" id="profile_name"></h3>
+                <h6 style="text-transform: capitalize;" id="profile_status"></h6>
+            </div>
+            </li>
+            <li><a class="dropdown-item" href="#">Account Setting</a></li>
+            <li  slot="border-top: 2px border-color: black border-top-style: groove;"><a class="dropdown-item" onclick="logout()">Logout</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    </div>
+    </nav>
+    <nav id="sidebarMenu" class="collapse d-lg-block sidebar bg-dark " style="background-color: #07021e!important;">
+        <div class="position-sticky">
+           <div class="list-group list-group-flush mx-3 mt-4">
+            <a href="#" class="list-group-item list-group-item-action py-2 ripple">
+               <i class="fas fa-tachometer-alt fa-fw me-3"></i><span> Profile </span>
+             </a>
+            
+           </div>
+         </div>
+         
+   
+   <script>
+       
+   
+   </script>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+       </nav>
+
+{% endblock %}
+
+{% block content %}
+
+
+<div class="card-contents" style="padding: 10px 10px 2px 20px !important"  >
+   
+    <div class="row">
+        
+      <div class="col-md-7">
+           
+        <div class="card h-100" style="height: 80vh !important; opacity: 0.8 ; padding: 2px" >
+        <div class="card-body">
+            <div class="row">
+                <h5>Vehicle Details</h5>
+                <hr>
+            </div>
+            <div id="vehicle_details" class="table" style="opacity: 0.8;scrollbar-gutter: stable;">
+               
+            </div>
+  
+            </div>
+ 
+         </div> 
+     
+        </div> 
+        
+        <div class="col-md-5">
+            <div class="card h-100" style="height: 80vh !important; opacity: 0.8 ; padding: 2px" >
+                <div class="card-body">
+                    <div class="row">
+                        <h5> Owner Details</h5>
+                        <hr>
+                    </div>
+                    <div id="owner_details" class="table" style="opacity: 0.8;scrollbar-gutter: stable;">
+                       
+                    </div>
+          
+                </div>
+            </div>
+          </div>
+      </div>
+  
+
+
+     
+
+    </div>
+ 
+
+</div>
+
+
+
+{% endblock %}
+{% include 'footer.html' %}
+{% block footer %}
+
+
+<script>
+
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var userDataString = sessionStorage.getItem('userData');
+        if (userDataString) {
+            var userData = JSON.parse(userDataString);
+            var username = userData.username;
+            fetchUserData(username);
+        } else {
+            // Handle the case where userData is not found in sessionStorage
+        }
+    });
+    
+
+    function fetchUserData(username) {
+        var data = { username: username };
+        fetch('/all_user_page_data',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)    
+        })
+        .then(response => response.json())
+        .then(resp => {
+            // Handle the response resp here
+            console.log(resp);
+            console.log(resp.status)
+            if(resp.status == "success")
+            {
+            success ('success', resp.message)
+            showOnDetails(resp)
+            showAVDetails(resp)
+            }else{   
+            success ('error', resp.message)
+            showOnDetails(resp)
+            showAVDetails(resp)
+            }
+            
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+    
+    
+
+
+function showOnDetails(resp){
+    $('#owner_details').empty().append(
+        `<table>
+            <tr>
+               <th style='padding:5px 190px 5px 5px' >Owner Name  </th>
+               <td>${resp.owner_details.name}</td> 
+            </tr>
+            <tr>
+                <th style='padding:5px 190px 5px 5px'>Owner Email </th>
+                <td>${resp.owner_details.email}</td> 
+             </tr
+            <tr>
+                <th style='padding:5px 190px 5px 5px'>Owner Licence  </th>
+                <td>${resp.owner_details.license_no}</td> 
+             </tr>
+             <tr>
+                <th style='padding:5px 190px 5px 5px' >Address </th>
+                <td>${resp.owner_details.Address}</td> 
+             </tr>
+             <tr>
+                <th style='padding:5px 190px 5px 5px' >Phone_no </th>
+                <td>${resp.owner_details.phone_no}</td> 
+             </tr>
+
+        </table>`
+    )
+  
+
+
+}
+function showAVDetails(resp){
+    console.log(resp.vehicle_details.email)
+    $('#vehicle_details').empty().append(
+        `<table>
+            <tr>
+               <th style='padding:5px 190px 5px 5px' >Owner Name  </th>
+               <td>${resp.vehicle_details.owner_name}</td> 
+            </tr>
+            <tr>
+                <th style='padding:5px 190px 5px 5px'>Owner Licence  </th>
+                <td>${resp.vehicle_details.owner_licence}</td> 
+             </tr>
+             <tr>
+                <th style='padding:5px 190px 5px 5px' >Vehicle No </th>
+                <td>${resp.vehicle_details.vehicle_no}</td> 
+             </tr>
+             <tr>
+                <th style='padding:5px 190px 5px 5px' >Vehicle Type </th>
+                <td>${resp.vehicle_details.vehicle_type}</td> 
+             </tr>
+             <tr>
+                <th style='padding:5px 190px 5px 5px' >Current Fine </th>
+                <td>${resp.vehicle_details.fine_status}</td> 
+             </tr>
+             <tr>
+              <th style='padding:5px 190px 5px 5px' >Date and Time </th>
+              <td>${resp.vehicle_details.last_datetime}</td> 
+             </tr>
+             <tr>
+                <th style='padding:5px 190px 5px 5px' >Insured </th>
+                <td>${resp.vehicle_details.Insured}</td> 
+               </tr>
+               <tr>
+                <th style='padding:5px 190px 5px 5px' >Insured Up to </th>
+                <td>${resp.vehicle_details.Insured_Date}</td> 
+               </tr>
+             <tr id="blink">
+                <th style='padding:5px 190px 5px 5px' >Vehicle Status </th>
+                <td>${resp.vehicle_details.status}</td> 
+             </tr>
+        </table>`
+    )
+
+ 
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    var userDataString = sessionStorage.getItem('userData');
+    if (userDataString) {
+        var userData = JSON.parse(userDataString);
+        var username = userData.name;
+        var staffStatus = userData.staff_status;
+        document.getElementById('profile_name').innerText = username;
+        document.getElementById('profile_status').innerText = staffStatus;
+    } else {
+        // Handle the case where userData is not found in sessionStorage
+    }
+});
+
+</script>
+{% endblock %}

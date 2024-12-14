@@ -30,14 +30,22 @@ def homepage():
 def signup_get():
    return render_template("signup.html")
 
-
+@app.route('/all_user_page_data', methods=['POST'])
+@check_for_token
+def all_page_data():
+   data = User()
+   page_data = data.all_user_page_data()
+   return page_data
 
 @app.route('/home')
 @check_for_token
 def admin_page():
    return render_template('home.html')
 
-
+@app.route('/user')
+@check_for_token
+def user_page():
+   return render_template('users.html')
 
 @app.route('/login',methods=['POST'])
 def login_post():
@@ -96,8 +104,20 @@ def setcookie():
 @app.route('/logout')
 def logout():
     resp = make_response(render_template('login.html'))
+    resp.headers['Clear-Session-Storage'] = 'true' 
     resp.set_cookie('token',expires=0)
     return  resp
+
+
+
+
+# @app.route('/logout')
+# def logout():
+#     # Create a response to render the login page
+#     resp = make_response(jsonify(message="Logged out successfully"))
+#     resp.set_cookie('token', '', expires=0)  # Remove the token cookie
+#     resp.headers['Clear-Session-Storage'] = 'true'  # Set a header to clear session storage
+#     return resp
 
 
 @app.route('/add_users',methods=['POST'])
@@ -136,6 +156,13 @@ def get_location():
 def add_location():
     data = User()
     return data.add_location_data()
+
+@app.route('/update_fine', methods=['POST'])
+@check_for_token
+def update_fine():
+   fine_data = User()
+   return fine_data.update_fine_data()
+
 
 
 

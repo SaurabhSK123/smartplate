@@ -38,8 +38,9 @@ def detect_plate(img):
       (x1,y1) = (np.min(x), np.min(y))
       (x2,y2) = (np.max(x), np.max(y))
 
-      crpped_image = gray[x1:x2+1, y1:y2+1]
+      #crpped_image = gray[x1:x2+1, y1:y2+1]
       pyt.pytesseract.tesseract_cmd = r'tesseract'
+      crpped_image = gray[x1:x2+1, y1:y2+1]
       text = pyt.image_to_string(crpped_image, lang='eng', config='--psm 6')
       x=0
       number = ''

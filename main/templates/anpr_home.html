@@ -58,7 +58,7 @@
                        
                     </div>
                     <button id="AddFine" type="button" style="float: right; display:none ;margin: 10px 10px 10px 10px ;background-color: #315a83;
-                    border-color: #315a83;" class="btn btn-primary btn-sm" data-placement="top" onclick="addFine();" data-original-title=".btn .btn-default .btn-sm" aria-describedby="tooltip753069">Add Fine</button>
+                    border-color: #315a83;" class="btn btn-primary btn-sm" data-placement="top" onclick="addFine();" data-original-title=".btn .btn-default .btn-sm" aria-describedby="tooltip753069">Add Parking Charges</button>
                     
 
                     <button id="AddVehicle" type="button" style="float: left; display:none ;margin: 10px 10px 10px 10px ;background-color: #315a83;
@@ -111,6 +111,11 @@
                         <label style="color: var(--white);font-weight: 600;font-size: 13px" for="addVehicleTypeDXB">Add Vehicle Type</label>
                         <input type="text" class="form-control" id="addVehicleTypeDXB" name="vehicle_type">
                     </div>
+                    <div class="form-group tempsing-formsmtp col-lg-6">
+                        
+                      <label style="color: var(--white);font-weight: 600;font-size: 13px" for="addParkingChargeDXB"> Current Parking Charges</label>
+                      <input type="text" class="form-control" id="addParkingChargeDXB" name="parkingcharge">
+                  </div>
                     
             </div>
         </div>
@@ -131,7 +136,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content" style="background-clip: padding-box;">
         <div class="modal-header new-modal-header">
-          <h6 class="modal-title" id="addFineModalLabel"><small>Update Fine</small></h6>
+          <h6 class="modal-title" id="addFineModalLabel"><small>Update Parking Fine</small></h6>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal()">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -161,13 +166,21 @@
                         <label style="color: var(--white);font-weight: 600;font-size: 13px" for="addVehicleTypeDXB">Add Vehicle Type</label>
                         <input type="text" class="form-control" id="FaddVehicleTypeDXB" name="vehicle_type">
                     </div>
-                    
+                    <div class="form-group tempsing-formsmtp col-lg-6">
+                        
+                      <label style="color: var(--white);font-weight: 600;font-size: 13px" for="addParkingChargeDXB"> Current Parking Charges</label>
+                      <input type="text" class="form-control" id="FaddParkingChargeDXB" name="parkingcharge">
+                  </div>
             </div>
         </div>
+        
         <div class="modal-footer" style="margin-top: 20px;">
+          <button type="button" style="float: right; margin: 10px 10px 10px 10px ;background-color: #315a83;
+            border-color: #315a83;" class="btn btn-primary btn-sm" data-placement="top" onclick="add50();" data-original-title=".btn .btn-default .btn-sm" aria-describedby="tooltip753069">Add 50Rs Fine</button>
             <button type="button" style="float: right; margin: 10px 10px 10px 10px ;background-color: #315a83;
-            border-color: #315a83;" class="btn btn-primary btn-sm" data-placement="top" onclick="updateFine();" data-original-title=".btn .btn-default .btn-sm" aria-describedby="tooltip753069">Update Fine</button>
-            </div>
+            border-color: #315a83;" class="btn btn-primary btn-sm" data-placement="top" onclick="updateFine();" data-original-title=".btn .btn-default .btn-sm" aria-describedby="tooltip753069">Update Parking Fine</button>
+            
+        </div>
   
         </div>
       </div>
@@ -269,10 +282,21 @@ function showAVDetails(resp){
                 <th style='padding:5px 190px 5px 5px' >Current Fine </th>
                 <td>${resp.data[0].fine_status}</td> 
              </tr>
+             <tr>
+              <th style='padding:5px 190px 5px 5px' >Date and Time </th>
+              <td>${resp.data[0].last_datetime}</td> 
+             </tr>
+             <tr>
+              <th style='padding:5px 190px 5px 5px' >Insured </th>
+              <td>${resp.data[0].Insured}</td> 
+             </tr>
              <tr id="blink">
                 <th style='padding:5px 190px 5px 5px' >Vehicle Status </th>
                 <td>${resp.data[0].status}</td> 
              </tr>
+             
+
+             
         </table>`
     )
     if(resp.data[0].status == "Unauthorised"){
@@ -288,10 +312,12 @@ function showAVDetails(resp){
     $('#addOwnerNameDXB').val(resp.data[0].owner_name)
     $('#addOwnerLicenceDXB').val(resp.data[0].owner_licence)
     $('#addVehicleTypeDXB').val(resp.data[0].vehicle_type)
+    $('#addParkingChargeDXB').val(resp.data[0].fine_status)
     $('#FaddVehicleNoDXB').val(resp.data[0].vehicle_no)
     $('#FaddOwnerNameDXB').val(resp.data[0].owner_name)
     $('#FaddOwnerLicenceDXB').val(resp.data[0].owner_licence)
     $('#FaddVehicleTypeDXB').val(resp.data[0].vehicle_type)
+    $('#FaddParkingChargeDXB').val(resp.data[0].fine_status)
 
 }
 $(function() {
@@ -358,6 +384,56 @@ function addFine(){
          }
         });
 
+  }
+
+  function updateFine(){
+
+    update_fine_data = {
+      vehicle_no : document.getElementById("FaddVehicleNoDXB").value,
+      fine_status : document.getElementById("FaddParkingChargeDXB").value
+    }
+
+
+
+    var update_fine_url = {
+      "url": "http://localhost:5000/update_fine",
+      "method": "POST",
+      "timeout": 0,
+      "headers": {
+      "Content-Type": "application/json"
+      },
+      "data": JSON.stringify(update_fine_data),
+      };
+
+      $.ajax(update_fine_url).done(function (response) {
+        console.log(response.status)
+        console.log(response.message)
+        if(response.status == "success" )
+        {
+        success ('success', response.message)
+        closeModal()
+        UploadandGet()
+
+        //<!-- setTimeout(function() {
+         //  window.location.href = "/anpr_cam";
+         //}, 1000);  -->
+        }
+        else{
+            
+         success ('error', response.message)
+        
+         
+         }
+        });
+
+
+  }
+
+  function add50(){
+  c_fine = document.getElementById("FaddParkingChargeDXB").value  
+  fine_status = Number(c_fine) + 50
+
+  $('#FaddParkingChargeDXB').val(fine_status)
   }
 
 </script>
