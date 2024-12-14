@@ -1,10 +1,8 @@
 from functools import wraps
-from flask import Flask,render_template , jsonify, request, make_response
+from flask import render_template , jsonify, request, make_response
 import requests
 from main import app , db
 from main.models import *
-import jwt
-import datetime
 from .prediction import *
 app.config['SECRET_KEY'] = 'This is Secret Key'
 
@@ -84,7 +82,6 @@ def vehicle_dash():
 @app.route('/get_vehicles',methods=['POST'])
 @check_for_token
 def getvehicles():
-   print("HIIII")
    data = User()
    vehicles = data.get_vehicle_list()
    return vehicles
@@ -190,7 +187,7 @@ def upload_and_get():
 
 
 
-app.run()
+
 
 
 

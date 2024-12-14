@@ -57,7 +57,7 @@ showBtn.addEventListener('click', function(){
 </script>
  <script>
        function Signup(){
-          console.log("hey")
+         //  console.log("hey")
        var obj_data ={
        username:document.getElementById('username').value,
        email:document.getElementById('email').value,
@@ -78,8 +78,8 @@ var signup_url = {
 };
 
 $.ajax(signup_url).done(function (response) {
-console.log(response.status)
-console.log(response.message)
+// console.log(response.status)
+// console.log(response.message)
 if(response.status == "success" )
 {
 success ('success', response.message)

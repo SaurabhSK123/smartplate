@@ -11,7 +11,7 @@ def check_for_token(func):
     @wraps(func)
     def wrapped(*args, **kwargs):
 
-        print(request.cookies)
+        #print(request.cookies)
         token =request.cookies.get('token')
         if not token:
             return jsonify({'result':'missing token'}),403
@@ -25,9 +25,7 @@ def check_for_token(func):
 
 def create_token(email,password):
         try:
-            print("HIIIIIIIIIIIIIII")
             #Check for Username 
-            print(email, password)
             if not email:
                 # print('in get token',resp_username)
                 return jsonify({'WWW-Authenticate':'Basic realm:"login error"'})
@@ -36,7 +34,6 @@ def create_token(email,password):
             if not password:
                 return jsonify({'WWW-Authenticate':'Basic realm:"login error"'})
 
-            print(app.config['SECRET_KEY'])            
             token=jwt.encode({
                 'email':email,
                 'password':password,
@@ -98,17 +95,13 @@ class User:
             user['password'] = data['password']
             
             checkuser = users_collection.find_one({ 'email' :  user['email']},{'_id':0})
-            print(checkuser)
             if checkuser == None:
                 return jsonify({"status":"failed", "message" : "Username not Registered " })
             
             else:
                 hashed_password = checkuser['password']
-                print(hashed_password)
                 checkpasswd = bcrypt.checkpw(user['password'].encode('utf-8'),hashed_password.encode('utf-8'))
-                print(checkpasswd)
                 if checkpasswd:
-                    print(user['email'],user['password'])
                     token = create_token(user['email'],user['password'])
                    
                     resp = jsonify({"status":"success","name" : checkuser['name'], "username": checkuser['email'] , "staff_status": checkuser['staff_status'], "message" : "Login Succssful "})
@@ -143,7 +136,6 @@ class User:
     
     # get Vehicle Details
     def get_vehicle_list(self,_data=None):
-        print(_data)
         try:
             if _data != None:
                 

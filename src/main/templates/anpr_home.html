@@ -241,8 +241,8 @@
     .then(response => response.json())
     .then(resp => {
         // Handle the response resp here
-        console.log(resp);
-        console.log(resp.status)
+        //console.log(resp);
+        //console.log(resp.status)
         if(resp.status == "success")
         {
         success ('success', resp.message)
@@ -367,8 +367,8 @@ function addFine(){
       };
 
       $.ajax(add_vehicle_data_url).done(function (response) {
-        console.log(response.status)
-        console.log(response.message)
+        //console.log(response.status)
+        //console.log(response.message)
         if(response.status == "success" )
         {
         success ('success', response.message)
@@ -406,8 +406,8 @@ function addFine(){
       };
 
       $.ajax(update_fine_url).done(function (response) {
-        console.log(response.status)
-        console.log(response.message)
+        // console.log(response.status)
+        // console.log(response.message)
         if(response.status == "success" )
         {
         success ('success', response.message)

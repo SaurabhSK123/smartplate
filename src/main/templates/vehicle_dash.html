@@ -133,8 +133,8 @@ border-color: #315a83;" class="btn btn-primary btn-sm" data-placement="top" oncl
     })
       .then(response => response.json())
       .then(vehicles => {
-        console.log("HIIIIIIII")
-        console.log(vehicles.data[0])
+        // console.log("HIIIIIIII")
+        // console.log(vehicles.data[0])
         if (vehicles.data.length > 0) {
           $("#vehicle_tbody").empty()
           for (i = 0; i < vehicles.data.length; i++) {
@@ -184,8 +184,8 @@ border-color: #315a83;" class="btn btn-primary btn-sm" data-placement="top" oncl
       };
 
       $.ajax(add_vehicle_data_url).done(function (response) {
-        console.log(response.status)
-        console.log(response.message)
+        // console.log(response.status)
+        // console.log(response.message)
         if(response.status == "success" )
         {
         success ('success', response.message)

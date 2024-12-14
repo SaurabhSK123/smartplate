@@ -159,8 +159,8 @@
         .then(response => response.json())
         .then(resp => {
             // Handle the response resp here
-            console.log(resp);
-            console.log(resp.status)
+            // console.log(resp);
+            // console.log(resp.status)
             if(resp.status == "success")
             {
             success ('success', resp.message)
@@ -212,7 +212,7 @@ function showOnDetails(resp){
 
 }
 function showAVDetails(resp){
-    console.log(resp.vehicle_details.email)
+    // console.log(resp.vehicle_details.email)
     $('#vehicle_details').empty().append(
         `<table>
             <tr>

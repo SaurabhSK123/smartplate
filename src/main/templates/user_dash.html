@@ -141,7 +141,7 @@
       fetch('/get_users')
         .then(response => response.json())
         .then(users => {
-          console.log(response)
+          // console.log(response)
           const userTable = document.getElementById('user-table').getElementsByTagName('tbody')[0];
           users.forEach(user => {
             const row = userTable.insertRow(-1);
@@ -179,7 +179,7 @@
         contact : document.getElementById("addContactDXB").value,
         staff_status : document.getElementById("addStatusDXB").value
         }
-      console.log(adduser_data)
+      // console.log(adduser_data)
 
 
       var add_user_data_url = {
@@ -193,8 +193,8 @@
         };
 
         $.ajax(add_user_data_url).done(function (response) {
-          console.log(response.status)
-          console.log(response.message)
+          // console.log(response.status)
+          // console.log(response.message)
           if(response.status == "success" )
           {
           success ('success', response.message)
