@@ -131,7 +131,6 @@ border-color: #315a83;" class="btn btn-primary btn-sm" data-placement="top" oncl
       fetch('/get_location')
         .then(response => response.json())
         .then(locations => {
-          console.log("HIIIIIIII")
           if (locations.length > 0) {
             $("#location_tbody").empty()
             for (i = 0; i < locations.length; i++) {
@@ -171,7 +170,7 @@ border-color: #315a83;" class="btn btn-primary btn-sm" data-placement="top" oncl
           city : document.getElementById("addCityDXB").value,
           state : document.getElementById("addStateDXB").value,
           }
-        console.log(location_data)
+        // console.log(location_data)
   
   
         var location_data_url = {
@@ -185,8 +184,8 @@ border-color: #315a83;" class="btn btn-primary btn-sm" data-placement="top" oncl
           };
   
           $.ajax(location_data_url).done(function (response) {
-            console.log(response.status)
-            console.log(response.message)
+            // console.log(response.status)
+            // console.log(response.message)
             if(response.status == "success" )
             {
             success ('success', response.message)
